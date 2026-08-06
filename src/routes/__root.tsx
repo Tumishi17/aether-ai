@@ -83,21 +83,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Aura Assist — AI Workplace Productivity" },
+      { title: "Dashboard — Aura Assist Workplace AI" },
       {
         name: "description",
         content:
-          "Aura Assist automates workplace writing, meetings, planning and research with enterprise-grade AI.",
+          "Track emails generated, tasks completed, meetings summarized and your productivity score in one AI workspace.",
       },
       { name: "author", content: "Aura Assist" },
-      { property: "og:title", content: "Aura Assist — AI Workplace Productivity" },
+      { property: "og:title", content: "Dashboard — Aura Assist Workplace AI" },
       {
         property: "og:description",
-        content: "Enterprise AI for emails, meeting notes, planning and research.",
+        content: "Track emails generated, tasks completed, meetings summarized and your productivity score in one AI workspace.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Dashboard — Aura Assist Workplace AI" },
+      { name: "twitter:description", content: "Track emails generated, tasks completed, meetings summarized and your productivity score in one AI workspace." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3f3882dd-3d09-4a9b-a07e-109eab56341a/id-preview-1fad8638--98c74807-f496-4424-a478-cef8bef7ff59.lovable.app-1786008307904.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3f3882dd-3d09-4a9b-a07e-109eab56341a/id-preview-1fad8638--98c74807-f496-4424-a478-cef8bef7ff59.lovable.app-1786008307904.png" },
     ],
     links: [
       {

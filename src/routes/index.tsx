@@ -43,7 +43,7 @@ export const Route = createFileRoute("/")({
       { property: "og:title", content: "Dashboard — Aura Assist Workplace AI" },
       {
         property: "og:description",
-        content: "Live productivity analytics for your AI-assisted workday.",
+        content: "Track emails generated, tasks completed, meetings summarized and your productivity score in one AI workspace.",
       },
     ],
   }),
