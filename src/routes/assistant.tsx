@@ -73,15 +73,11 @@ function timeOf(message: UIMessage) {
 
 function Assistant() {
   const [initialMessages, setInitialMessages] = useState<UIMessage[] | null>(null);
-  const [input, setInput] = useState("");
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const savedIds = useRef(new Set<string>());
 
   useEffect(() => {
     let active = true;
     void loadMessages().then((messages) => {
       if (!active) return;
-      messages.forEach((message) => savedIds.current.add(message.id));
       setInitialMessages(messages);
     });
     return () => {
@@ -89,12 +85,41 @@ function Assistant() {
     };
   }, []);
 
+  return (
+    <div className="space-y-4">
+      {initialMessages ? (
+        <ChatPanel initialMessages={initialMessages} />
+      ) : (
+        <>
+          <PageHeader
+            icon={BotMessageSquare}
+            eyebrow="Assistant"
+            title="AI Workplace Chatbot"
+            description="Ask Aura anything about your work — your conversation is saved to your workspace."
+          />
+          <Card className="glass-panel">
+            <CardContent className="flex h-[62vh] min-h-[420px] items-center justify-center">
+              <Shimmer className="text-sm">Loading your conversation…</Shimmer>
+            </CardContent>
+          </Card>
+        </>
+      )}
+      <AiDisclaimer />
+    </div>
+  );
+}
+
+function ChatPanel({ initialMessages }: { initialMessages: UIMessage[] }) {
+  const [input, setInput] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const savedIds = useRef(new Set<string>(initialMessages.map((message) => message.id)));
+
   const transport = useMemo(() => new DefaultChatTransport({ api: "/api/chat" }), []);
 
   const { messages, sendMessage, status, setMessages } = useChat({
     id: "aura-workplace-conversation",
     transport,
-    ...(initialMessages ? { messages: initialMessages } : {}),
+    messages: initialMessages,
     onError: (error) =>
       toast.error("The assistant could not reply", {
         description: error.message || "Please try again in a moment.",
@@ -112,7 +137,7 @@ function Assistant() {
 
   useEffect(() => {
     if (!isBusy) focusInput();
-  }, [isBusy, focusInput, initialMessages]);
+  }, [isBusy, focusInput]);
 
   const send = useCallback(
     (text: string) => {
@@ -139,7 +164,7 @@ function Assistant() {
   };
 
   return (
-    <div className="space-y-4">
+    <>
       <PageHeader
         icon={BotMessageSquare}
         eyebrow="Assistant"
@@ -158,20 +183,21 @@ function Assistant() {
           <Conversation className="min-h-0 flex-1">
             <ConversationContent className="gap-4">
               {messages.length === 0 ? (
-                <ConversationEmptyState
-                  icon={
-                    <img
-                      src={logo}
-                      alt="Aura Assist"
-                      width={512}
-                      height={512}
-                      className="h-12 w-12 rounded-xl"
-                    />
-                  }
-                  title="How can I help you work today?"
-                  description="Pick a starting point or type your own question."
-                >
-                  <div className="mt-4 grid w-full gap-2 sm:grid-cols-2">
+                <ConversationEmptyState>
+                  <img
+                    src={logo}
+                    alt="Aura Assist"
+                    width={512}
+                    height={512}
+                    className="h-12 w-12 rounded-xl"
+                  />
+                  <div className="space-y-1">
+                    <h2 className="text-sm font-semibold">How can I help you work today?</h2>
+                    <p className="text-sm text-muted-foreground">
+                      Pick a starting point or type your own question.
+                    </p>
+                  </div>
+                  <div className="mt-2 grid w-full max-w-2xl gap-2 sm:grid-cols-2">
                     {suggestions.map((suggestion) => (
                       <button
                         key={suggestion}
@@ -233,8 +259,6 @@ function Assistant() {
           </PromptInput>
         </CardContent>
       </Card>
-
-      <AiDisclaimer />
-    </div>
+    </>
   );
 }
