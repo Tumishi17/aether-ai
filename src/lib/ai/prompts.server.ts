@@ -20,7 +20,7 @@ export function emailPrompt(input: {
   tone: string;
   audience: string;
   length: string;
-  keyPoints?: string;
+  keyPoints?: string | undefined;
 }) {
   return `Purpose: ${input.purpose}
 Tone: ${input.tone}

@@ -58,8 +58,8 @@ type JsonSchema = Record<string, unknown>;
 export async function runResponses(options: {
   system: string;
   prompt: string;
-  schema?: { name: string; schema: JsonSchema };
-  initialRunId?: string;
+  schema?: { name: string; schema: JsonSchema } | undefined;
+  initialRunId?: string | undefined;
 }) {
   const apiKey = process.env["LOVABLE_API_KEY"];
   if (!apiKey) throw new GatewayError(500, "AI is not configured for this workspace.");
@@ -145,7 +145,7 @@ export async function runJson<T>(options: {
   system: string;
   prompt: string;
   schema: { name: string; schema: JsonSchema };
-  initialRunId?: string;
+  initialRunId?: string | undefined;
 }): Promise<T> {
   const text = await runResponses(options);
   if (!text) throw new GatewayError(502, "The AI returned an empty response. Please retry.");

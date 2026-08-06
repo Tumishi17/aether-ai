@@ -34,7 +34,7 @@ export const Route = createFileRoute("/api/chat")({
         const result = streamText({
           model: lovable.responses("openai/gpt-5.6-sol"),
           system: chatSystem,
-          messages: convertToModelMessages(body.messages as UIMessage[]),
+          messages: await convertToModelMessages(body.messages as UIMessage[]),
           providerOptions: {
             openai: {
               forceReasoning: true,
